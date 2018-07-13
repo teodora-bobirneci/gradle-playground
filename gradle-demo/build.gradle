@@ -22,3 +22,7 @@ Closure pr = {task -> println "I'm $task.project.name"}
 task hello (group: 'Demo tasks', description: 'Does what it\'s being told to.') {
 	doLast pr
 }
+
+project(':gradle-demo-child1') {
+	task('hello').doLast pr
+}
