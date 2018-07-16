@@ -19,10 +19,36 @@ dependencies {
 
 Closure pr = {task -> println "I'm $task.project.name"}
 
-task hello (group: 'Demo tasks', description: 'Does what it\'s being told to.') {
-	doLast pr
+//task hello (group: 'Demo tasks', description: 'Does what it\'s being told to.') {
+//	doLast pr
+//}
+
+//project(':gradle-demo-child1') {
+//	task('hello').doLast pr
+//}
+
+allprojects {
+	task hello {
+		doLast { task ->
+			println "I'm $task.project.name"
+		}
+	}
 }
 
-project(':gradle-demo-child1') {
-	task('hello').doLast pr
+
+subprojects {
+	hello {
+		doLast {
+			println '\t- I depend on parent.'		
+		}
+	}
 }
+
+project(':gradle-demo-child2').hello {
+	doLast {
+		println '\tSpecific behaviour for child 2 from parent build file.'	
+	}
+}
+
+
+
